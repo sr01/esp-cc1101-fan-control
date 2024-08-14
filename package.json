@@ -1,0 +1,9 @@
+{
+  "name": "esp-cc1101",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "compile": "esphome compile esp-cc1101.yaml"
+  },
+  "private": true
+}
