@@ -40,9 +40,19 @@ globals:
   - id: lfan_warm_output_state
     type: float
     initial_value: '0.0'
+    restore_value: yes
   - id: lfan_cold_output_state
     type: float
     initial_value: '0.0'
+    restore_value: yes
+  - id: rfan_warm_output_state
+    type: float
+    initial_value: '0.0'
+    restore_value: yes
+  - id: rfan_cold_output_state
+    type: float
+    initial_value: '0.0'
+    restore_value: yes
 
 ############## RF ##############
 
@@ -475,21 +485,44 @@ script:
           code: !include codes/lfan/led_increase.yaml
       - lambda: get_cc1101(transciver).endTransmission();
 
-  ###### Other Scripts
+  ###### Light Scripts
   - id: lfan_decide_light_mode
     mode: queued
     then:
       - lambda: |-
-          if (id(lfan_warm_output_state) == 1.0f && id(lfan_cold_output_state) == 0.0f) {
-            id(lfan_light_warm).execute();
-          } else if (id(lfan_warm_output_state) == 0.0f && id(lfan_cold_output_state) == 1.0f) {
-            id(lfan_light_cold).execute();
-          } else if (id(lfan_warm_output_state) == 0.5f && id(lfan_cold_output_state) == 0.5f) {
-            id(lfan_light_neutral).execute();
-          } else if (id(lfan_warm_output_state) == 0.0f && id(lfan_cold_output_state) == 0.0f) {
+          float warm_threshold_high = 0.8f;
+          float cold_threshold_low = 0.5f;
+          float cold_threshold_high = 0.8f;
+          float warm_threshold_low = 0.5f;
+          
+          if(id(lfan_warm_output_state) == 0 && id(lfan_cold_output_state) == 0){
             id(lfan_light_off).execute();
+          } else if (id(lfan_warm_output_state) > warm_threshold_high && id(lfan_cold_output_state) < cold_threshold_low) {
+            id(lfan_light_warm).execute();
+          } else if (id(lfan_warm_output_state) < warm_threshold_low && id(lfan_cold_output_state) > cold_threshold_high) {
+            id(lfan_light_cold).execute();
+          } else {
+            id(lfan_light_neutral).execute();
           }
 
+  - id: rfan_decide_light_mode
+    mode: queued
+    then:
+      - lambda: |-
+          float warm_threshold_high = 0.8f;
+          float cold_threshold_low = 0.5f;
+          float cold_threshold_high = 0.8f;
+          float warm_threshold_low = 0.5f;
+          
+          if(id(rfan_warm_output_state) == 0 && id(rfan_cold_output_state) == 0){
+            id(rfan_light_off).execute();
+          } else if (id(rfan_warm_output_state) > warm_threshold_high && id(rfan_cold_output_state) < cold_threshold_low) {
+            id(rfan_light_warm).execute();
+          } else if (id(rfan_warm_output_state) < warm_threshold_low && id(rfan_cold_output_state) > cold_threshold_high) {
+            id(rfan_light_cold).execute();
+          } else {
+            id(rfan_light_neutral).execute();
+          }
 
 button:
 
@@ -682,7 +715,7 @@ output:
       - lambda: |-
           id(lfan_cold_output_state) = state;
           id(lfan_decide_light_mode).execute();
-          ESP_LOGD("custom", "lfan light cold output write: %.2f", state);
+          ESP_LOGD("lfan", "lfan light cold output: %.2f", state);
 
 
   - platform: template
@@ -692,7 +725,26 @@ output:
       - lambda: |-
           id(lfan_warm_output_state) = state;
           id(lfan_decide_light_mode).execute();
-          ESP_LOGD("custom", "lfan light warm output write: %.2f", state);
+          ESP_LOGD("lfan", "lfan light warm output: %.2f", state);
+
+  - platform: template
+    id: rfan_light_cold_output
+    type: float
+    write_action:
+      - lambda: |-
+          id(rfan_cold_output_state) = state;
+          id(rfan_decide_light_mode).execute();
+          ESP_LOGD("rfan", "rfan light cold output: %.2f", state);
+
+
+  - platform: template
+    id: rfan_light_warm_output
+    type: float
+    write_action:
+      - lambda: |-
+          id(rfan_warm_output_state) = state;
+          id(rfan_decide_light_mode).execute();
+          ESP_LOGD("rfan", "rfan light warm output: %.2f", state);
 
 light:
   - platform: cwww
@@ -701,9 +753,20 @@ light:
     warm_white: lfan_light_warm_output
     cold_white_color_temperature: 6000 K
     warm_white_color_temperature: 3000 K
-    constant_brightness: true
+    constant_brightness: false
+    default_transition_length: 0s
+    restore_mode: RESTORE_DEFAULT_OFF
+
+  - platform: cwww
+    name: "Right Light"
+    cold_white: rfan_light_cold_output
+    warm_white: rfan_light_warm_output
+    cold_white_color_temperature: 6000 K
+    warm_white_color_temperature: 3000 K
+    constant_brightness: false
+    default_transition_length: 0s
+    restore_mode: RESTORE_DEFAULT_OFF
 
   # TODO:
-  # 1. use cwww, on change calculate the color out of 3 (warm, norm, cold)  and call led color
-  # 2. add brightness level (increase/decrease),
-  # 2. decide about the  wind, direction, timers buttons - keep it or expose differentlly?
+  # - add brightness level (increase/decrease),
+  # - decide about the  wind, direction, timers buttons - keep as buttons it or expose differently?
