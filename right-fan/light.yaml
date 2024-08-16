@@ -1,0 +1,9 @@
+light:
+  - platform: color_temperature
+    name: "Right Light"
+    color_temperature: rfan_color_temperature_output
+    brightness: rfan_brightness_output
+    cold_white_color_temperature: 6000 K
+    warm_white_color_temperature: 2000 K
+    default_transition_length: 0s
+    restore_mode: RESTORE_DEFAULT_OFF

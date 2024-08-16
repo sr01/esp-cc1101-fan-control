@@ -1,0 +1,83 @@
+binary_sensor:
+  - platform: remote_receiver
+    name: RFAN Fan Off Sensor
+    internal: true
+    raw:
+      code: !include codes/fan_off.yaml
+    on_release:
+      then:
+        - fan.turn_off: rfan_fan
+
+  - platform: remote_receiver
+    name: RFAN Light Off Sensor
+    internal: true
+    raw:
+      code: !include codes/light_off.yaml
+
+  - platform: remote_receiver
+    name: RFAN Fan 1 Sensor
+    internal: true
+    raw:
+      code: !include codes/fan_1.yaml
+    on_release:
+      then:
+        - lambda: |-
+            id(rfan_fan).turn_on().set_speed(1).perform();
+
+  - platform: remote_receiver
+    name: RFAN Fan 2 Sensor
+    internal: true
+    raw:
+      code: !include codes/fan_2.yaml
+    on_release:
+      then:
+        - lambda: |-
+            id(rfan_fan).turn_on().set_speed(2).perform();
+
+  - platform: remote_receiver
+    name: RFAN Fan 3 Sensor
+    internal: true
+    raw:
+      code: !include codes/fan_3.yaml
+    on_release:
+      then:
+        - lambda: |-
+            id(rfan_fan).turn_on().set_speed(3).perform();
+
+  - platform: remote_receiver
+    name: RFAN Fan 4 Sensor
+    internal: true
+    raw:
+      code: !include codes/fan_4.yaml
+    on_release:
+      then:
+        - lambda: |-
+            id(rfan_fan).turn_on().set_speed(4).perform();
+
+  - platform: remote_receiver
+    name: RFAN Fan 5 Sensor
+    internal: true
+    raw:
+      code: !include codes/fan_5.yaml
+    on_release:
+      then:
+        - lambda: |-
+            id(rfan_fan).turn_on().set_speed(5).perform();
+
+  - platform: remote_receiver
+    name: RFAN Light Neutral Sensor
+    internal: true
+    raw:
+      code: !include codes/light_neutral.yaml
+
+  - platform: remote_receiver
+    name: RFAN Light Warm Sensor
+    internal: true
+    raw:
+      code: !include codes/light_warm.yaml
+
+  - platform: remote_receiver
+    name: RFAN Light Cold Sensor
+    internal: true
+    raw:
+      code: !include codes/light_cold.yaml

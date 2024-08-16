@@ -1,0 +1,158 @@
+script:
+  - id: lfan_fan_off
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/fan_off.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_light_off
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/light_off.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_fan_1
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/fan_1.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_fan_2
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/fan_2.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_fan_3
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/fan_3.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_fan_4
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/fan_4.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_fan_5
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/fan_5.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_light_neutral
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/light_neutral.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_light_warm
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/light_warm.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_light_cold
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/light_cold.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_wind
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/wind.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_direction
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/direction.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_1h
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/timer_1h.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_4h
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/timer_4h.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_8h
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/timer_8h.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_led_decrease
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/led_decrease.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: lfan_led_increase
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: !include codes/led_increase.yaml
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  ###### Light Scripts
+
+  - id: lfan_decide_light_mode
+    mode: queued
+    then:
+      - lambda: |-
+          float warm_threshold = 0.8f;
+          float cold_threshold = 0.5f;
+
+          // Adjust brightness based on the difference between desired and current levels
+          if (id(lfan_brightness_level) > id(lfan_current_brightness_level)) {
+            int increase_steps = id(lfan_brightness_level) - id(lfan_current_brightness_level);
+            for (int i = 0; i < increase_steps; i++) {
+              id(lfan_led_increase).execute();
+            }
+          } else if (id(lfan_brightness_level) < id(lfan_current_brightness_level)) {
+            int decrease_steps = id(lfan_current_brightness_level) - id(lfan_brightness_level);
+            for (int i = 0; i < decrease_steps; i++) {
+              id(lfan_led_decrease).execute();
+            }
+          }
+          
+          // Update the current brightness level
+          id(lfan_current_brightness_level) = id(lfan_brightness_level);
+
+          // Determine the light mode based on color temperature
+          if (id(lfan_current_brightness_level) == 0) {
+            id(lfan_light_off).execute();
+            return;
+          }
+
+          if(id(lfan_color_temperature_state) > warm_threshold) {
+            id(lfan_light_warm).execute();
+          } else if (id(lfan_color_temperature_state) < cold_threshold) {
+            id(lfan_light_cold).execute();
+          } else {
+            id(lfan_light_neutral).execute();
+          }

@@ -1,0 +1,25 @@
+fan:
+  - platform: template
+    id: rfan_fan
+    name: "Right Fan"
+    speed_count: 5
+    on_state:
+      - logger.log:
+          format: "Right Fan State changed,  state: %d, speed: %d"
+          args: [ x->state, x->speed ]
+      - lambda: |-
+          if (x->state == 0){
+            id(rfan_fan_off).execute();
+          } else {
+            if (x->speed == 1) { 
+              id(rfan_fan_1).execute();
+            } else if (x->speed == 2) {  
+              id(rfan_fan_2).execute();
+            } else if (x->speed == 3) {  
+              id(rfan_fan_3).execute();
+            } else if (x->speed == 4) { 
+              id(rfan_fan_4).execute();
+            } else if (x->speed == 5) { 
+              id(rfan_fan_5).execute();
+            }
+          }

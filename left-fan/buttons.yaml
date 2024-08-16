@@ -1,0 +1,25 @@
+button:
+  - platform: template
+    name: LFAN Wind Button
+    on_press:
+      - script.execute: lfan_wind
+
+  - platform: template
+    name: LFAN F/R Button
+    on_press:
+      - script.execute: lfan_direction
+
+  - platform: template
+    name: LFAN 1H Button
+    on_press:
+      - script.execute: lfan_1h
+
+  - platform: template
+    name: LFAN 4H Button
+    on_press:
+      - script.execute: lfan_4h
+
+  - platform: template
+    name: LFAN 8H Button
+    on_press:
+      - script.execute: lfan_8h

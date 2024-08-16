@@ -1,0 +1,25 @@
+button:
+  - platform: template
+    name: RFAN Wind Button
+    on_press:
+      - script.execute: rfan_wind
+
+  - platform: template
+    name: RFAN F/R Button
+    on_press:
+      - script.execute: rfan_direction
+
+  - platform: template
+    name: RFAN 1H Button
+    on_press:
+      - script.execute: rfan_1h
+
+  - platform: template
+    name: RFAN 4H Button
+    on_press:
+      - script.execute: rfan_4h
+
+  - platform: template
+    name: RFAN 8H Button
+    on_press:
+      - script.execute: rfan_8h
