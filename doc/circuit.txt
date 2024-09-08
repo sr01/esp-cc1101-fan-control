@@ -1,0 +1,28 @@
+Connecting ESP-32 DevKit (38 pins) to CC-1101
+=============================================
+
+ESP-32      CC-1101
+------      -------
+3V3         VCC
+GND         GND
+GPIO 18     SCK
+GPIO 19     MISO
+GPIO 23     MOSI
+GPIO 5      CSN
+GPIO 32     GDO0
+
+
+Connecting ESP-32-c3 (16 pins) to CC-1101
+=========================================
+
+ESP-32      CC-1101
+------      -------
+3V3         VCC
+GND         GND
+GPIO 4      SCK
+GPIO 5      MISO
+GPIO 6      MOSI
+GPIO 7      CSN
+GPIO 10     GDO0
+
+
