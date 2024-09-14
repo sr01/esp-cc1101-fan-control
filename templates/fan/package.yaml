@@ -1,0 +1,7 @@
+<<: !include globals.yaml
+<<: !include sensors.yaml
+<<: !include outputs.yaml
+<<: !include scripts.yaml
+<<: !include buttons.yaml
+<<: !include fan.yaml
+<<: !include light.yaml

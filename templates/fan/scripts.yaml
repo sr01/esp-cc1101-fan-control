@@ -1,0 +1,158 @@
+script:
+  - id: {{fan_prefix}}_fan_off
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_fan_off}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_light_off
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_light_off}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_fan_1
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_fan_1}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_fan_2
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_fan_2}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_fan_3
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_fan_3}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_fan_4
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_fan_4}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_fan_5
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_fan_5}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_light_neutral
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_light_neutral}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_light_warm
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_light_warm}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_light_cold
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_light_cold}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_wind
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_wind}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_direction
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_direction}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_1h
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_timer_1h}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_4h
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_timer_4h}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_8h
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_timer_8h}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_led_decrease
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_led_decrease}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  - id: {{fan_prefix}}_led_increase
+    then:
+      - lambda: get_cc1101(transciver).beginTransmission();
+      - remote_transmitter.transmit_raw:
+          code: {{codes_led_increase}}
+      - lambda: get_cc1101(transciver).endTransmission();
+
+  ###### Light Scripts
+
+  - id: {{fan_prefix}}_decide_light_mode
+    mode: queued
+    then:
+      - lambda: |-
+          float warm_threshold = 0.8f;
+          float cold_threshold = 0.5f;
+
+          // Adjust brightness based on the difference between desired and current levels
+          if (id({{fan_prefix}}_brightness_level) > id({{fan_prefix}}_current_brightness_level)) {
+            int increase_steps = id({{fan_prefix}}_brightness_level) - id({{fan_prefix}}_current_brightness_level);
+            for (int i = 0; i < increase_steps; i++) {
+              id({{fan_prefix}}_led_increase).execute();
+            }
+          } else if (id({{fan_prefix}}_brightness_level) < id({{fan_prefix}}_current_brightness_level)) {
+            int decrease_steps = id({{fan_prefix}}_current_brightness_level) - id({{fan_prefix}}_brightness_level);
+            for (int i = 0; i < decrease_steps; i++) {
+              id({{fan_prefix}}_led_decrease).execute();
+            }
+          }
+          
+          // Update the current brightness level
+          id({{fan_prefix}}_current_brightness_level) = id({{fan_prefix}}_brightness_level);
+
+          // Determine the light mode based on color temperature
+          if (id({{fan_prefix}}_current_brightness_level) == 0) {
+            id({{fan_prefix}}_light_off).execute();
+            return;
+          }
+
+          if(id({{fan_prefix}}_color_temperature_state) > warm_threshold) {
+            id({{fan_prefix}}_light_warm).execute();
+          } else if (id({{fan_prefix}}_color_temperature_state) < cold_threshold) {
+            id({{fan_prefix}}_light_cold).execute();
+          } else {
+            id({{fan_prefix}}_light_neutral).execute();
+          }

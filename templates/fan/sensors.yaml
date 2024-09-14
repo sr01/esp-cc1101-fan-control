@@ -1,0 +1,84 @@
+binary_sensor:
+  - platform: remote_receiver
+    name: {{fan_name}} Fan Off Sensor
+    internal: true
+    raw:
+      code: {{codes_fan_off}}
+    on_release:
+      then:
+        - fan.turn_off: {{fan_prefix}}_fan
+
+  - platform: remote_receiver
+    name: {{fan_name}} Light Off Sensor
+    internal: true
+    raw:
+      code: {{codes_light_off}}
+
+  - platform: remote_receiver
+    name: {{fan_name}} Fan 1 Sensor
+    internal: true
+    raw:
+      code: {{codes_fan_1}}
+    on_release:
+      then:
+        - lambda: |-
+            id({{fan_prefix}}_fan).turn_on().set_speed(1).perform();
+
+  - platform: remote_receiver
+    name: {{fan_name}} Fan 2 Sensor
+    internal: true
+    raw:
+      code: {{codes_fan_2}}
+    on_release:
+      then:
+        - lambda: |-
+            id({{fan_prefix}}_fan).turn_on().set_speed(2).perform();
+
+  - platform: remote_receiver
+    name: {{fan_name}} Fan 3 Sensor
+    internal: true
+    raw:
+      code: {{codes_fan_3}}
+    on_release:
+      then:
+        - lambda: |-
+            id({{fan_prefix}}_fan).turn_on().set_speed(3).perform();
+
+  - platform: remote_receiver
+    name: {{fan_name}} Fan 4 Sensor
+    internal: true
+    raw:
+      code: {{codes_fan_4}}
+    on_release:
+      then:
+        - lambda: |-
+            id({{fan_prefix}}_fan).turn_on().set_speed(4).perform();
+
+  - platform: remote_receiver
+    name: {{fan_name}} Fan 5 Sensor
+    internal: true
+    raw:
+      code: {{codes_fan_5}}
+    on_release:
+      then:
+        - lambda: |-
+            id({{fan_prefix}}_fan).turn_on().set_speed(5).perform();
+
+  - platform: remote_receiver
+    name: {{fan_name}} Light Neutral Sensor
+    internal: true
+    raw:
+      code: {{codes_light_neutral}}
+
+  - platform: remote_receiver
+    name: {{fan_name}} Light Warm Sensor
+    internal: true
+    raw:
+      code: {{codes_light_warm}}
+
+  - platform: remote_receiver
+    name: {{fan_name}} Light Cold Sensor
+    internal: true
+    raw:
+      code: {{codes_light_cold}}
+

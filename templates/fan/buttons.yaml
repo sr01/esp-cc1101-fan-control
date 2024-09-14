@@ -1,0 +1,25 @@
+button:
+  - platform: template
+    name: {{fan_name}} Wind Button
+    on_press:
+      - script.execute: {{fan_prefix}}_wind
+
+  - platform: template
+    name: {{fan_name}} F/R Button
+    on_press:
+      - script.execute: {{fan_prefix}}_direction
+
+  - platform: template
+    name: {{fan_name}} 1H Button
+    on_press:
+      - script.execute: {{fan_prefix}}_1h
+
+  - platform: template
+    name: {{fan_name}} 4H Button
+    on_press:
+      - script.execute: {{fan_prefix}}_4h
+
+  - platform: template
+    name: {{fan_name}} 8H Button
+    on_press:
+      - script.execute: {{fan_prefix}}_8h

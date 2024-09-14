@@ -1,7 +1,7 @@
 fan:
   - platform: template
-    id: left_fan_fan
-    name: "Left Fan"
+    id: {{fan_prefix}}_fan
+    name: "{{fan_name}}"
     speed_count: 5
     on_state:
       - logger.log:
@@ -9,17 +9,17 @@ fan:
           args: [ x->state, x->speed ]
       - lambda: |-
           if (x->state == 0){
-            id(left_fan_fan_off).execute();
+            id({{fan_prefix}}_fan_off).execute();
           } else {
             if (x->speed == 1) { 
-              id(left_fan_fan_1).execute();
+              id({{fan_prefix}}_fan_1).execute();
             } else if (x->speed == 2) {  
-              id(left_fan_fan_2).execute();
+              id({{fan_prefix}}_fan_2).execute();
             } else if (x->speed == 3) {  
-              id(left_fan_fan_3).execute();
+              id({{fan_prefix}}_fan_3).execute();
             } else if (x->speed == 4) { 
-              id(left_fan_fan_4).execute();
+              id({{fan_prefix}}_fan_4).execute();
             } else if (x->speed == 5) { 
-              id(left_fan_fan_5).execute();
+              id({{fan_prefix}}_fan_5).execute();
             }
           }

@@ -13,6 +13,7 @@ config/local.json
 samconfig.toml
 build
 dist
+generated
 
 # Created by https://www.gitignore.io/api/node,macos,terraform,intellij+all
 # Edit at https://www.gitignore.io/?templates=node,macos,terraform,intellij+all
