@@ -5,7 +5,7 @@ esphome:
     - cc1101.h
   libraries:
     - SPI
-    - "SmartRC-CC1101-Driver-Lib"
+    - 'SmartRC-CC1101-Driver-Lib'
 
 esp32:
   board: esp32dev
@@ -29,7 +29,7 @@ wifi:
   power_save_mode: HIGH
 
   ap:
-    ssid: "Esp-Cc1101 Fallback Hotspot"
+    ssid: 'Esp-Cc1101 Fallback Hotspot'
     password: !secret ap_password
 
 captive_portal:

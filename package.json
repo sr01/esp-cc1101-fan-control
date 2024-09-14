@@ -4,7 +4,15 @@
   "description": "",
   "scripts": {
     "compile": "esphome compile esp-cc1101.yaml",
-    "run": "esphome run esp-cc1101.yaml"
+    "run": "esphome run esp-cc1101.yaml",
+    "generate-fan": "npx ts-node scripts/generate-fan.ts",
+    "pretty": "npx prettier --write .\\scripts"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
 }
