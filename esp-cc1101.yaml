@@ -8,7 +8,8 @@ esphome:
     - "SmartRC-CC1101-Driver-Lib"
 
 esp32:
-  board: esp32dev
+  board: esp32-c3-devkitm-1
+  variant: ESP32C3
   framework:
     type: arduino
 
@@ -40,11 +41,11 @@ sensor:
   - platform: custom
     lambda: |-
       auto my_sensor = new CC1101(
-        18, // SCK
-        19, // MISO
-        23, // MOSI
-        5, // CSN
-        32, // GDO0
+        4, // SCK
+        5, // MISO
+        6, // MOSI
+        7, // CSN
+        10, // GDO0
         200, // bandwidth_in_khz
         433.92, // freq_in_mhz
         id(transmitter) // id of remote_transmitter
@@ -58,14 +59,14 @@ sensor:
 remote_transmitter:
   - id: transmitter
     pin:
-      number: 32 # This is GDO0
+      number: 10 # This is GDO0
       allow_other_uses: true
     carrier_duty_percent: 100%
 
 remote_receiver:
   - id: receiver
     pin:
-      number: 32 # This is GDO0
+      number: 10 # This is GDO0
       allow_other_uses: true
     tolerance: 50%
 
