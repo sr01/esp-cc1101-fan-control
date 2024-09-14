@@ -1,15 +1,15 @@
 globals:
-  - id: rfan_brightness_level
+  - id: right_fan_brightness_level
     type: int
     initial_value: '0'
     restore_value: yes
 
-  - id: rfan_color_temperature_state
+  - id: right_fan_color_temperature_state
     type: float
     initial_value: '0.0'
     restore_value: yes
 
-  - id: rfan_current_brightness_level
+  - id: right_fan_current_brightness_level
     type: int
     initial_value: '0'
     restore_value: yes

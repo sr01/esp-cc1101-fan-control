@@ -1,8 +1,8 @@
 light:
   - platform: color_temperature
-    name: "Right Fan Light"
-    color_temperature: right_fan_color_temperature_output
-    brightness: right_fan_brightness_output
+    name: "{{fan_name}} Light"
+    color_temperature: {{fan_prefix}}_color_temperature_output
+    brightness: {{fan_prefix}}_brightness_output
     cold_white_color_temperature: 6000 K
     warm_white_color_temperature: 2000 K
     default_transition_length: 0s

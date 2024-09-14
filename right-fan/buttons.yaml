@@ -1,25 +1,25 @@
 button:
   - platform: template
-    name: RFAN Wind Button
+    name: Right Fan Wind Button
     on_press:
-      - script.execute: rfan_wind
+      - script.execute: right_fan_wind
 
   - platform: template
-    name: RFAN F/R Button
+    name: Right Fan F/R Button
     on_press:
-      - script.execute: rfan_direction
+      - script.execute: right_fan_direction
 
   - platform: template
-    name: RFAN 1H Button
+    name: Right Fan 1H Button
     on_press:
-      - script.execute: rfan_1h
+      - script.execute: right_fan_1h
 
   - platform: template
-    name: RFAN 4H Button
+    name: Right Fan 4H Button
     on_press:
-      - script.execute: rfan_4h
+      - script.execute: right_fan_4h
 
   - platform: template
-    name: RFAN 8H Button
+    name: Right Fan 8H Button
     on_press:
-      - script.execute: rfan_8h
+      - script.execute: right_fan_8h

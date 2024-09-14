@@ -1,20 +1,20 @@
 output:
   - platform: template
-    id: rfan_color_temperature_output
+    id: right_fan_color_temperature_output
     type: float
     write_action:
       - lambda: |-
-          id(rfan_color_temperature_state) = state;
-          id(rfan_decide_light_mode).execute();
-          ESP_LOGD("rfan", "rfan light color output: %.2f", state);
+          id(right_fan_color_temperature_state) = state;
+          id(right_fan_decide_light_mode).execute();
+          ESP_LOGD("right_fan", "right_fan light color output: %.2f", state);
 
 
   - platform: template
-    id: rfan_brightness_output
+    id: right_fan_brightness_output
     type: float
     write_action:
       - lambda: |-
-          id(rfan_brightness_level) = round(state * 7);  // Calculate desired brightness level (0-7)
-          id(rfan_decide_light_mode).execute();
-          ESP_LOGD("rfan", "light brightness output: %.2f", state);
-          ESP_LOGD("rfan", "light brightness level: %d", id(rfan_brightness_level));
+          id(right_fan_brightness_level) = round(state * 7);  // Calculate desired brightness level (0-7)
+          id(right_fan_decide_light_mode).execute();
+          ESP_LOGD("right_fan", "light brightness output: %.2f", state);
+          ESP_LOGD("right_fan", "light brightness level: %d", id(right_fan_brightness_level));
