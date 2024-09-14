@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "compile": "esphome compile esp-cc1101.yaml",
-    "run": "esphome run esp-cc1101.yaml",
+    "run": "esphome -s device_ip_address 192.168.15.45 run esp-cc1101.yaml",
     "generate-left-fan": "npx ts-node scripts/generate-fan.ts \"Left Fan\" ./codes/MY_PACIFIC_MONSOON_LEFT_FAN.json",
     "generate-right-fan": "npx ts-node scripts/generate-fan.ts \"Right Fan\" ./codes/MY_PACIFIC_MONSOON_RIGHT_FAN.json",
     "pretty": "npx prettier --write .\\scripts"

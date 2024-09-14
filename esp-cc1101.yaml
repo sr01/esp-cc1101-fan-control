@@ -1,6 +1,9 @@
+substitutions:
+  device_ip_address: 0.0.0.0
+
 esphome:
-  name: esp-cc1101
-  friendly_name: esp-cc1101
+  name: esp-cc1101-fan-control
+  friendly_name: ESP CC1101 Fan Control
   includes:
     - cc1101.h
   libraries:
@@ -27,9 +30,10 @@ wifi:
   password: !secret wifi_password
   fast_connect: true
   power_save_mode: HIGH
+  use_address: $device_ip_address
 
   ap:
-    ssid: 'Esp-Cc1101 Fallback Hotspot'
+    ssid: 'esp-cc1101 Fallback Hotspot'
     password: !secret ap_password
 
 captive_portal:
@@ -73,5 +77,3 @@ packages:
   left: !include left-fan/package.yaml
   right: !include right-fan/package.yaml
 
-  # TODO:
-  # - decide about the wind, direction and timers buttons - keep as buttons or expose differently?
