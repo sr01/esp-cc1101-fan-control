@@ -1,25 +1,25 @@
 button:
   - platform: template
-    name: LFAN Wind Button
+    name: Left Fan Wind Button
     on_press:
-      - script.execute: lfan_wind
+      - script.execute: left_fan_wind
 
   - platform: template
-    name: LFAN F/R Button
+    name: Left Fan F/R Button
     on_press:
-      - script.execute: lfan_direction
+      - script.execute: left_fan_direction
 
   - platform: template
-    name: LFAN 1H Button
+    name: Left Fan 1H Button
     on_press:
-      - script.execute: lfan_1h
+      - script.execute: left_fan_1h
 
   - platform: template
-    name: LFAN 4H Button
+    name: Left Fan 4H Button
     on_press:
-      - script.execute: lfan_4h
+      - script.execute: left_fan_4h
 
   - platform: template
-    name: LFAN 8H Button
+    name: Left Fan 8H Button
     on_press:
-      - script.execute: lfan_8h
+      - script.execute: left_fan_8h

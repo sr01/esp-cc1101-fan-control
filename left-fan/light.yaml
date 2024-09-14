@@ -1,8 +1,8 @@
 light:
   - platform: color_temperature
-    name: "Left Light"
-    color_temperature: lfan_color_temperature_output
-    brightness: lfan_brightness_output
+    name: "Left Fan Light"
+    color_temperature: left_fan_color_temperature_output
+    brightness: left_fan_brightness_output
     cold_white_color_temperature: 6000 K
     warm_white_color_temperature: 2000 K
     default_transition_length: 0s

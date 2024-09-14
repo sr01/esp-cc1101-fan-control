@@ -1,0 +1,20 @@
+output:
+  - platform: template
+    id: {{fan_prefix}}_color_temperature_output
+    type: float
+    write_action:
+      - lambda: |-
+          id({{fan_prefix}}_color_temperature_state) = state;
+          id({{fan_prefix}}_decide_light_mode).execute();
+          ESP_LOGD("{{fan_prefix}}", "{{fan_prefix}} light color output: %.2f", state);
+
+
+  - platform: template
+    id: {{fan_prefix}}_brightness_output
+    type: float
+    write_action:
+      - lambda: |-
+          id({{fan_prefix}}_brightness_level) = round(state * 7);  // Calculate desired brightness level (0-7)
+          id({{fan_prefix}}_decide_light_mode).execute();
+          ESP_LOGD("{{fan_prefix}}", "light brightness output: %.2f", state);
+          ESP_LOGD("{{fan_prefix}}", "light brightness level: %d", id({{fan_prefix}}_brightness_level));
